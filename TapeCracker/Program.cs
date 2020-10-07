@@ -22,7 +22,7 @@ namespace TapeCracker
             //Verify or grab from file containing needed loantype columns (store in a csv file within the project?)
             var LoanTape = Extractor.GetLoans(args[0]);
             //Verify column header row from args (later calculate dynamically)
-
+            var HeaderCol = Extractor.FindAndLoadHeader(LoanTape);
         }
     }
 }
