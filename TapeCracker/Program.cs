@@ -18,11 +18,13 @@ namespace TapeCracker
 
         public static void Main(string[] args)
         {
-            //First take in Loan Tape
+            //First take in Loan Tape from Args
 
-            //Verify Loan tape type
+            //Verify Loan tape type from Args
 
             //Verify or grab from file containing needed loantype columns (store in a csv file within the project?)
+
+            //Verify column header row from args (later calculate dynamically)
 
         }
     }
