@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 //Use this class to remove all columns that are unneeded, based on dealType
 namespace TapeCracker
 {
-    class ETLReadyTrimmer
+    public class ETLReadyTrimmer
     {
     }
 }
