@@ -23,6 +23,7 @@ namespace TapeCracker
             var LoanTape = Extractor.GetLoans(args[0]);
             //Verify column header row from args (later calculate dynamically)
             var HeaderCol = Extractor.FindAndLoadHeader(LoanTape);
+            //Send HeaderCol,
         }
     }
 }
