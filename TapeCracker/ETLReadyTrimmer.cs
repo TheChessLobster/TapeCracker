@@ -10,7 +10,7 @@ namespace TapeCracker
 {
     public class ETLReadyTrimmer
     {
-        public int LevDistance(string string1, string string2)
+        public static int LevDistance(string string1, string string2)
         {
             if ((string1 == null) || (string2 == null)) return 0;
             if ((string1.Length == 0) || (string2.Length == 0)) return 0;
@@ -46,7 +46,7 @@ namespace TapeCracker
 
             return distance[sourceChars, targetChars];
         }
-        public double MatchCalc(string source, string target)
+        public static double MatchCalc(string source, string target)
         {
             if (source == target) return 1.0;
 
