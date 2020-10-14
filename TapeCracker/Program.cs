@@ -21,16 +21,10 @@ namespace TapeCracker
             //Verify Loan tape type from Args
             var TapeType = args[1];
             //Using TapeType pull in the List of columns needed for ETL
-
             //Verify or grab from file containing needed loantype columns (store in a csv file within the project?)
             var LoanTape = Extractor.GetLoans(args[0]);
             //Verify column header row from args (later calculate dynamically)
             var HeaderCol = Extractor.FindAndLoadHeader(LoanTape);
-
-            
-
-            var test = 0;
-            //Send HeaderCol,
         }
 
         public static string[] ColumnGrab(string DealType)
