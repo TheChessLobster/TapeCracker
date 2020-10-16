@@ -32,14 +32,14 @@ namespace TapeCracker
             switch (DealType)
             {
                 case "MCIRT":
-                    return CSVSingleLineReader(0);
+                    return SingleLineReader(0);
                 case "CIRT":
-                    return CSVSingleLineReader(1);
+                    return SingleLineReader(1);
             }
             return new string[] { "you", "messed", "up" };//Default no match error
         }
 
-        public static string[] CSVSingleLineReader(int line)
+        public static string[] SingleLineReader(int line)
         {
             string[] allLines = File.ReadAllLines("C:\\Users\\thech\\Desktop\\School\\Capstone\\DealType.csv");
             string[] dealLine = allLines[line].Split('|'); // error if less lines, check allLines.Length

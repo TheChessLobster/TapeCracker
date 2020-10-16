@@ -21,15 +21,15 @@ namespace TapeCracker
                 return targetChars;
             if (targetChars == 0)
                 return sourceChars;
-            int[,] distance = new int[sourceChars + 1, targetChars + 1];
-            for (int i =0;i <=sourceChars; distance[i,0] = i++) ;
-            for (int j =0;j <=targetChars; distance[0,j] = j++) ;
-            for (int i =1;i <=sourceChars; i++)
+            int[,] distance = new int[sourceChars + 1, targetChars + 1];//Set distance array for Memoization
+            for (int i =0;i <=sourceChars; distance[i,0] = i++) ;//Initialize first column
+            for (int j =0;j <=targetChars; distance[0,j] = j++) ;//Initialize first row
+            for (int i =1;i <=sourceChars; i++) //apply steps algorithm
             {
                 for (int j = 1; j <= targetChars; j++)
                 {
                     int cost = (string2[j - 1] == string1[i - 1]) ? 0 : 1;
-                    distance[i, j] = Math.Min(Math.Min(distance[i - 1, j] + 1, distance[i, j - 1] + 1), distance[i - 1, j - 1] + cost);
+                    distance[i, j] = Math.Min(Math.Min(distance[i - 1, j] + 1, distance[i, j - 1] + 1), distance[i - 1, j - 1] + cost);//Use memoized sub problems
                 }
             }
             return distance[sourceChars, targetChars];
@@ -37,8 +37,7 @@ namespace TapeCracker
         public static double MatchCalc(string source, string target)
         {
             if (source == target) return 1.0;
-
-            int stepsToSame = LevDistance(source, target);
+            int stepsToSame = LevDistance(source, target);//This takes in the length of the string as well
             return (1.0 - ((double)stepsToSame / (double)Math.Max(source.Length, target.Length)));
         }
     }
