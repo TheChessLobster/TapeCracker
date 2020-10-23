@@ -13,36 +13,38 @@ namespace TapeCracker
 {
     public class Program
     {
-        //Possible args list
-        //FilePath to loanTape being inputted (later edit this to take in multiple dealtapes at once)
-        //DealType list (make an enum for this)
         public static void Main(string[] args)
         {
-            //Verify Loan tape type from Args
+            string[] test1 = new string[] { "BobbyJ", "JamesR", "TaliiaJ" };
+            string[] test2 = new string[] { "BobJ", "TaliaJ", "JamesL" };
+            int[] LocList = ETLReadyTrimmer.ColumnLocator(test1, test2);
             var TapeType = args[1];
-            //Using TapeType pull in the List of columns needed for ETL
-            //Verify or grab from file containing needed loantype columns (store in a csv file within the project?)
-            var LoanTape = Extractor.GetLoans(args[0]);
-            //Verify column header row from args (later calculate dynamically)
-            var HeaderCol = Extractor.FindAndLoadHeader(LoanTape);
+            var GoalColumns = ColumnGrab(TapeType, args[2]);
+            var HeaderRow = CSVSingleLineReader(3, args[0], Convert.ToChar("|"));
+            var teststrings = ETLReadyTrimmer.MatchCalc("LoanNumber", "LoanIDNumber");//These 2 have an 80 percent cut-off value
+            LocList = ETLReadyTrimmer.ColumnLocator(GoalColumns, HeaderRow);
+            //Use those array locs to pull from 'LoanTape' item, just below the header
+            //Perform validation in the 'validator' using statistical rules i get from andrew
+            var stop = 0;
+            //Use ML to keep record of error of probability
         }
 
-        public static string[] ColumnGrab(string DealType)
+        public static string[] ColumnGrab(string DealType, string path)
         {
             switch (DealType)
             {
                 case "MCIRT":
-                    return SingleLineReader(0);
+                    return CSVSingleLineReader(0, path, Convert.ToChar(","));
                 case "CIRT":
-                    return SingleLineReader(1);
+                    return CSVSingleLineReader(1, path, Convert.ToChar(","));
             }
-            return new string[] { "you", "messed", "up" };//Default no match error
+            return new string[] { };
         }
 
-        public static string[] SingleLineReader(int line)
+        public static string[] CSVSingleLineReader(int line, string path, char delimiter)
         {
-            string[] allLines = File.ReadAllLines("C:\\Users\\thech\\Desktop\\School\\Capstone\\DealType.csv");
-            string[] dealLine = allLines[line].Split('|'); // error if less lines, check allLines.Length
+            string[] allLines = File.ReadAllLines(path);
+            string[] dealLine = allLines[line].Split(delimiter); // error if less lines, check allLines.Length
             return dealLine;
         }
     }

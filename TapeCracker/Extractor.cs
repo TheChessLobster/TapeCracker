@@ -16,7 +16,7 @@ namespace TapeCracker
         public static string[] FindAndLoadHeader(IEnumerable<string[]> LoanTape)
         {
             var LoanTapeList = LoanTape.ToList();
-            for(int i = 0; i < LoanTape.Count(); i++)
+            for (int i = 0; i < LoanTape.Count(); i++)
             {
                 var FieldCount = LoanTapeList[i].Count();
                 if (FieldCount > 5) return LoanTapeList[i];

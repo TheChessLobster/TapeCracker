@@ -10,35 +10,47 @@ namespace TapeCracker
 {
     public class ETLReadyTrimmer
     {
+        public static int[] ColumnLocator(string[] GoalColumns, string[] LoanTapeColumns)
+        {
+            double currMax = -1;
+            int[] ColumnLocs = new int[GoalColumns.Length];
+            for (int i = 0; i < GoalColumns.Length; i++)
+            {
+                for (int j = 0; j < LoanTapeColumns.Length; j++)
+                {
+                    var newMax = MatchCalc(GoalColumns[i], LoanTapeColumns[j]);
+                    if (newMax > currMax)
+                    {
+                        currMax = newMax;
+                        ColumnLocs[i] = j;
+                    }
+                }
+            }
+            return ColumnLocs;
+        }
+        public static double MatchCalc(string source, string target)
+        {
+            if (source == target) return 1;
+            double steps = Convert.ToDouble(LevDistance(source, target));
+            return (1 - (steps / (double)Math.Max(source.Length, target.Length)));
+        }
         public static int LevDistance(string string1, string string2)
         {
-            if ((string1 == null) || (string2 == null)) return 0;
-            if ((string1.Length == 0) || (string2.Length == 0)) return 0;
-            if (string1 == string2) return string1.Length;
+            if (string1 == string2) return string1.Length;//Exact match
             int sourceChars = string1.Length;
             int targetChars = string2.Length;
-            if (sourceChars == 0)
-                return targetChars;
-            if (targetChars == 0)
-                return sourceChars;
-            int[,] distance = new int[sourceChars + 1, targetChars + 1];//Set distance array for Memoization
-            for (int i =0;i <=sourceChars; distance[i,0] = i++) ;//Initialize first column
-            for (int j =0;j <=targetChars; distance[0,j] = j++) ;//Initialize first row
-            for (int i =1;i <=sourceChars; i++) //apply steps algorithm
+            int[,] distance = new int[sourceChars + 1, targetChars + 1];
+            for (int i = 0; i <= sourceChars; distance[i, 0] = i++) ;
+            for (int j = 0; j <= targetChars; distance[0, j] = j++) ;
+            for (int i = 1; i <= sourceChars; i++)
             {
                 for (int j = 1; j <= targetChars; j++)
                 {
                     int cost = (string2[j - 1] == string1[i - 1]) ? 0 : 1;
-                    distance[i, j] = Math.Min(Math.Min(distance[i - 1, j] + 1, distance[i, j - 1] + 1), distance[i - 1, j - 1] + cost);//Use memoized sub problems
+                    distance[i, j] = Math.Min(Math.Min(distance[i - 1, j] + 1, distance[i, j - 1] + 1), distance[i - 1, j - 1] + cost);
                 }
             }
             return distance[sourceChars, targetChars];
-        }
-        public static double MatchCalc(string source, string target)
-        {
-            if (source == target) return 1.0;
-            int stepsToSame = LevDistance(source, target);//This takes in the length of the string as well
-            return (1.0 - ((double)stepsToSame / (double)Math.Max(source.Length, target.Length)));
         }
     }
 }
