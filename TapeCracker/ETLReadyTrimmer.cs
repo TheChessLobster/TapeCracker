@@ -14,20 +14,34 @@ namespace TapeCracker
         {
             double currMax = -1;
             int[] ColumnLocs = new int[KeyColumns.Length];
-            Dictionary<uint, double> used = new Dictionary<uint, double>();
-            for (int i = 0; i < KeyColumns.Length; i++)
+            Dictionary<string, string> Matches = new Dictionary<string, string>(); 
+            for (int i = 1; i < KeyColumns.Length; i++)
             {
                 for (int j = 0; j < LoanTapeValueColumns.Length; j++)
                 {
-                    var newMax = MatchCalc(KeyColumns[i], LoanTapeValueColumns[j]);
-                    if (newMax > currMax)
+                    if (LoanTapeValueColumns[j] != "")
                     {
-                        currMax = newMax;
-                        ColumnLocs[i] = j;
+                        var newMax = MatchCalc(KeyColumns[i], LoanTapeValueColumns[j]);
+                        if (newMax > currMax)
+                        {
+                            currMax = newMax;
+                            ColumnLocs[i] = j;
+                        }
                     }
                 }
-                used.Add((uint)i, ColumnLocs[i]);
+                //Post max match is found
+                Matches.Add(KeyColumns[i], LoanTapeValueColumns[ColumnLocs[i]]);              
+                LoanTapeValueColumns[ColumnLocs[i]] = "";// to prevent duplicate matches
+                currMax = -1; //reset max to math. min to make sure it doesn't skip stuff.
             }
+            double totalDistance = 0;
+            foreach(KeyValuePair<string,string> kvp in Matches)
+            {
+                var currDistance = MatchCalc(kvp.Key, kvp.Value);
+                totalDistance += currDistance;
+
+            }
+            var averageDistance = totalDistance / Matches.Count(); //If below 40 the match sucks
             return ColumnLocs;
         }
         public static double MatchCalc(string source, string target)
