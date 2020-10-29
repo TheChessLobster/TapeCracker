@@ -25,12 +25,9 @@ namespace TapeCracker
             for (int i = 0; i < trimmedHeaderRow.Length; i++){
                     trimmedHeaderRow[i] = HeaderRow[i];
             }
-            var teststrings = ETLReadyTrimmer.MatchCalc("LoanNumber", "LoanIDNumber");//These 2 have an 80 percent cut-off value
             var LocList = ETLReadyTrimmer.ColumnLocator(GoalColumns, trimmedHeaderRow);
-            //Use those array locs to pull from 'LoanTape' item, just below the header
-            //Perform validation in the 'validator' using statistical rules i get from andrew
-            var stop = 0;
-            //Use ML to keep record of error of probability
+            //We now know which columns of the csv contain the data that we need, so grab this data, and print it off to a new csv
+
         }
 
         public static string[] ColumnGrab(string DealType, string path)
