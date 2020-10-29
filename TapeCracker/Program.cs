@@ -23,7 +23,11 @@ namespace TapeCracker
             int[] LocList = ETLReadyTrimmer.ColumnLocator(test1, test2);
             var TapeType = args[1];
             var GoalColumns = ColumnGrab(TapeType, args[2]);
-            var HeaderRow = CSVSingleLineReader(3, args[0], Convert.ToChar("|"));
+            var HeaderRow = CSVSingleLineReader(3, args[0], Convert.ToChar(","));
+            string[] trimmedHeaderRow = new string[62];
+            for (int i = 0; i < trimmedHeaderRow.Length; i++){
+                trimmedHeaderRow[i] = HeaderRow[i];
+            }
             var teststrings = ETLReadyTrimmer.MatchCalc("LoanNumber", "LoanIDNumber");//These 2 have an 80 percent cut-off value
             LocList = ETLReadyTrimmer.ColumnLocator(GoalColumns, HeaderRow);
             //Use those array locs to pull from 'LoanTape' item, just below the header

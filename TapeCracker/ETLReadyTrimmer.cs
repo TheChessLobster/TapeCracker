@@ -10,16 +10,16 @@ namespace TapeCracker
 {
     public class ETLReadyTrimmer
     {
-        public static int[] ColumnLocator(string[] GoalColumns, string[] LoanTapeColumns)
+        public static int[] ColumnLocator(string[] KeyColumns, string[] LoanTapeValueColumns)
         {
             double currMax = -1;
-            int[] ColumnLocs = new int[GoalColumns.Length];
+            int[] ColumnLocs = new int[KeyColumns.Length];
             Dictionary<uint, double> used = new Dictionary<uint, double>();
-            for (int i = 0; i < GoalColumns.Length; i++)
+            for (int i = 0; i < KeyColumns.Length; i++)
             {
-                for (int j = 0; j < LoanTapeColumns.Length; j++)
+                for (int j = 0; j < LoanTapeValueColumns.Length; j++)
                 {
-                    var newMax = MatchCalc(GoalColumns[i], LoanTapeColumns[j]);
+                    var newMax = MatchCalc(KeyColumns[i], LoanTapeValueColumns[j]);
                     if (newMax > currMax)
                     {
                         currMax = newMax;
