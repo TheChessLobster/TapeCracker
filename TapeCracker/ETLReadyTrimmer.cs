@@ -40,7 +40,7 @@ namespace TapeCracker
             {
                 var currDistance = MatchCalc(kvp.Key, kvp.Value);
                 totalDistance += currDistance;
-                if(currDistance < minDistance) { minDistance = currDistance};
+                if(currDistance < minDistance) { minDistance = currDistance; }
 
             }
             var averageDistance = totalDistance / Matches.Count(); //If below 40 the match sucks
