@@ -14,6 +14,7 @@ namespace TapeCracker
         {
             double currMax = -1;
             int[] ColumnLocs = new int[GoalColumns.Length];
+            Dictionary<uint, double> used = new Dictionary<uint, double>();
             for (int i = 0; i < GoalColumns.Length; i++)
             {
                 for (int j = 0; j < LoanTapeColumns.Length; j++)
@@ -25,6 +26,7 @@ namespace TapeCracker
                         ColumnLocs[i] = j;
                     }
                 }
+                used.Add((uint)i, ColumnLocs[i]);
             }
             return ColumnLocs;
         }
