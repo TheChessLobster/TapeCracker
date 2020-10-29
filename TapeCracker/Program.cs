@@ -38,9 +38,9 @@ namespace TapeCracker
             switch (DealType)
             {
                 case "MCIRT":
-                    return CSVSingleLineReader(0, path, Convert.ToChar(","));
+                    return CSVSingleLineReader(5, path, Convert.ToChar(","));
                 case "CIRT":
-                    return CSVSingleLineReader(1, path, Convert.ToChar(","));
+                    return CSVSingleLineReader(4, path, Convert.ToChar(","));
             }
             return new string[] { };
         }
