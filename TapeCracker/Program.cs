@@ -17,6 +17,7 @@ namespace TapeCracker
         {
             //Inputs needed
             // LoanTapePath||TapeType||DealType csv(list of needed inputs)
+            // C:\Users\thech\Desktop\MCIRT20193 MCIRT C:\Users\thech\Desktop\DealType
             string[] test1 = new string[] { "BobbyJ", "JamesR", "TaliiaJ" };
             string[] test2 = new string[] { "BobJ", "TaliaJ", "JamesL" };
             int[] LocList = ETLReadyTrimmer.ColumnLocator(test1, test2);
