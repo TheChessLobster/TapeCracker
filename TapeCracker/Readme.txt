@@ -4,6 +4,6 @@ Milliman/UWW-Whitewater Project
 CURRENT TO DO
 10/14/2020
 
-1. Create Powerpoint presentation on 3 new sources to do with data validation/cleaning
-2. Implement the columnlocator fix(or explain errors in powerpoint presentation)
-3. apply andrew's checks to the 'Validator' class
+1. Finish Validator class with output of fixed data
+2. Report on data fixes
+3. Use this data fixes report as a machine learning training input

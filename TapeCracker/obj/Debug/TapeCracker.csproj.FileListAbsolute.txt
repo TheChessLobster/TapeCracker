@@ -4,4 +4,3 @@ C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\TapeCracker.pdb
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.csproj.CoreCompileInputs.cache
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.exe
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.pdb
-C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.csprojAssemblyReference.cache

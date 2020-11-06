@@ -23,7 +23,7 @@ namespace TapeCracker
             var HeaderRow = CSVSingleLineReader(3, args[0], Convert.ToChar(","));
             var LoanCount = CSVLineCounter(3, args[0]);
             List<string[]> loans = new List<string[]>();
-            string[] trimmedHeaderRow = new string[62];
+            string[] trimmedHeaderRow = new string[HeaderRow.Length];
             for (int i = 0; i < trimmedHeaderRow.Length; i++){
                     trimmedHeaderRow[i] = HeaderRow[i];
             }
