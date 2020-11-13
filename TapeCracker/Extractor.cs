@@ -13,6 +13,9 @@ namespace TapeCracker
         public static IEnumerable<string[]> GetLoans(string loansFile)
             => File.ReadAllLines(loansFile).Select(f => f.Split('|'));//Due to Loan Tapes tending to be pipe delimited. 
 
+        public static IEnumerable<string[]> GetTestSchemasOrClasses(string loansFile)
+            => File.ReadAllLines(loansFile).Select(f => f.Split(','));//Due to Loan Tapes tending to be pipe delimited. 
+
         public static string[] FindAndLoadHeader(IEnumerable<string[]> LoanTape)
         {
             var LoanTapeList = LoanTape.ToList();

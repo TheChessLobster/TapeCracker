@@ -10,6 +10,48 @@ namespace TapeCracker
 {
     public class ETLReadyTrimmer
     {
+
+        public static double[] KNNVectors(string[] KeyColumns, string[] LoanTapeValueColumns)
+        {
+            double currMax = -1;
+            int[] ColumnLocs = new int[KeyColumns.Length];
+            Dictionary<string, string> Matches = new Dictionary<string, string>();
+            for (int i = 1; i < KeyColumns.Length; i++)
+            {
+                for (int j = 0; j < LoanTapeValueColumns.Length; j++)
+                {
+                    if (LoanTapeValueColumns[j] != "")
+                    {
+                        var newMax = MatchCalc(KeyColumns[i], LoanTapeValueColumns[j]);
+                        if (newMax > currMax)
+                        {
+                            currMax = newMax;
+                            ColumnLocs[i] = j;
+                        }
+                    }
+                }
+                //Post max match is found
+                Matches.Add(KeyColumns[i], LoanTapeValueColumns[ColumnLocs[i]]);
+                LoanTapeValueColumns[ColumnLocs[i]] = "";// to prevent duplicate matches
+                currMax = -1; //reset max to math. min to make sure it doesn't skip stuff.
+            }
+            double totalDistance = 0;
+            double totalHighMatches = 0;
+            double minDistance = .999999;
+            foreach (KeyValuePair<string, string> kvp in Matches)
+            {
+                var currDistance = MatchCalc(kvp.Key, kvp.Value);
+                totalDistance += currDistance;
+                if (currDistance < minDistance) { minDistance = currDistance; }
+                if(currDistance > .8){ totalHighMatches += 1; }
+            }
+            
+            double averageDistance = totalDistance / Matches.Count(); //If below 40 the match sucks
+            double Minimum = minDistance;
+            double highMatchPct = totalHighMatches / LoanTapeValueColumns.Count();
+            double[] vals = new double[2] { averageDistance, highMatchPct };
+            return vals ;
+        }
         public static int[] ColumnLocator(string[] KeyColumns, string[] LoanTapeValueColumns)
         {
             double currMax = -1;
