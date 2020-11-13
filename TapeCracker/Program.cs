@@ -33,13 +33,13 @@ namespace TapeCracker
             double[] CIRTDouble = { 1, .90 };
             var CIRTtest = Classifier.KNNClassCalc(numClasses, KNNTestData, CIRTDouble, 5); //Should classify as '1'
 
-            //DUMMY VECTOR OF 20 PERCENT "MCIP" MATCH, WITH 20 PERCENT HIGH MATCH
+            //DUMMY VECTOR OF 20 PERCENT "CIRT" MATCH, WITH 20 PERCENT HIGH MATCH
             double[] MCIPDouble = { .2, .1 };
             var MCIPtest = Classifier.KNNClassCalc(numClasses, KNNTestData, MCIPDouble, 5); //Should classify as '2'
 
 
 
-            var TestClassification = Classifier.KNNClassCalc(numClasses, KNNTestData, realVector, 5);
+            var TestClassification = Classifier.KNNClassCalc(numClasses, KNNTestData, realVector, 5); //Real input(MCIRT) should classify as 0
             //0 = MCIRT, 1 = CIRT, 2 = MCIP
             //Based on classification of LoanTape (MCIP,MCIRT,CIRT), change the 'GoalColumns' value, then continue to validation.
             switch (TestClassification) {
@@ -53,8 +53,8 @@ namespace TapeCracker
                     classString = "MCIP";
                     break;
                         }
-            GoalColumns = ColumnGrab(classString, "C:\\Users\\thech\\Desktop\\DealType.csv");
-            var LocList = ETLReadyTrimmer.ColumnLocator(GoalColumns, TrimHeaderRow(HeaderRow));       
+            var GoalRow = ColumnGrab(classString, "C:\\Users\\thech\\Desktop\\DealType.csv");
+            var LocList = ETLReadyTrimmer.ColumnLocator(GoalRow, TrimHeaderRow(HeaderRow));       
             var Loans = Extractor.GetLoans(args[0]).ToList();
             Loans.RemoveRange(0, 4);
             for(int j = 0; j < Loans.Count(); j++)

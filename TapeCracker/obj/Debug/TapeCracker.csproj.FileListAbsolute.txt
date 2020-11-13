@@ -18,3 +18,4 @@ C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.csproj
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\Accord.dll.config
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\Accord.dll
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\Accord.xml
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.csprojAssemblyReference.cache
