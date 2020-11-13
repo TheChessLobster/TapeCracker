@@ -35,24 +35,18 @@ namespace TapeCracker
                 KNNTestData[i] = ETLReadyTrimmer.KNNVectors(GoalColumns,TestSchemas[i]);
                 numClasses[i] = Convert.ToDouble(SchemaClasses[i][0]);
             }
-
-        
-            //Get the header of our loanTape and run through the ETLReadyTrimmer to find our 'test' object, and predict it's classification
-
-            //Once we know its classification 
-
-
-
-            //var GoalColumns = ColumnGrab(TapeType, args[2]);//Grab 'GoalColumns' based on the decided classification of the LoanTape
-                            //Currently this is set up so it assumes it's an MCIRT loan type but this is mostly a testing decision, but is our 'test against' tape type
             var HeaderRow = CSVSingleLineReader(3, args[0], Convert.ToChar(","));
-            string[] TrimmedHeaderRow = new string[70];
-            for(int i = 0; i < 70; i++)
+            string[] TrimmedHeaderRow = new string[62];
+            for(int i = 0; i < 62; i++)
             {
                 TrimmedHeaderRow[i] = HeaderRow[i];
             }
-            //var TestVector = ETLReadyTrimmer.KNNVectors(GoalColumns, TrimmedHeaderRow);//use these vectors and KNN loaded data to classify our data
+            var realVector = ETLReadyTrimmer.KNNVectors(GoalColumns, TrimmedHeaderRow);//0 = CIRT, 1 = MCIRT, 2 = MCIP
 
+            var TestClassification = Classifier.KNNClassCalc(numClasses, KNNTestData, realVector, 5);//How to decide K?
+
+
+            //Based on classification of LoanTape (MCIP,MCIRT,CIRT), change the 'GoalColumns' value, then continue to validation.
             var LocList = ETLReadyTrimmer.ColumnLocator(GoalColumns, TrimmedHeaderRow);
            // var check = 0;
 
@@ -76,6 +70,8 @@ namespace TapeCracker
                     return CSVSingleLineReader(5, path, Convert.ToChar(","));
                 case "CIRT":
                     return CSVSingleLineReader(4, path, Convert.ToChar(","));
+                case "CIP":
+                    return CSVSingleLineReader(3, path, Convert.ToChar(","));
             }
             return new string[] { };
         }
