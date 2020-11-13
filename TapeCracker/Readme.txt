@@ -2,7 +2,9 @@
 Milliman/UWW-Whitewater Project
 
 CURRENT TO DO
-11/12/2020
+11/13/2020
 
 1. Implement and create validator class
-2. Automatically know and sort the LoanTape based on the lev distance of the average column schema
+2. Have it write out the final csv, and a separate csv breaking down outliers
+3. Rigorously test the current KNN implementation
+4. Research adding 'data-level' machine learning methods to correct outlier or incorrect data.
