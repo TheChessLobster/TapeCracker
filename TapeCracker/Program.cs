@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using NumSharp;
-using NumSharp.Utilities;
-using NumSharp.Generic;
-using Accord.MachineLearning;
-using Accord;
+
 //Evan Seghers
 //UW-Whitewater Student
 //Milliman Employee
@@ -19,12 +12,8 @@ namespace TapeCracker
     public class Program
     {
         public static void Main(string[] args)
-        {
-            //Inputs neededv
-            // LoanTapePath||TapeType||DealType csv(list of needed inputs)
-            // C:\Users\thech\Desktop\MCIRT20193 MCIRT C:\Users\thech\Desktop\DealType
-            var TapeType = args[1];//Hopefully don't need this anymore
-            var GoalColumns = ColumnGrab(TapeType, args[2]);
+        {//Eventually replace these csvs with Data tables
+            var GoalColumns = ColumnGrab("CIRT", "C:\\Users\\thech\\Desktop\\DealType.csv");
             //Grab and load in the test data, run through the ETLReadyTrimmer to create our test dataset
             var TestSchemas = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\Desktop\\TestSchemas.csv").ToList();
             var SchemaClasses = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\Desktop\\DealTypeClass.csv").ToList();
@@ -42,11 +31,11 @@ namespace TapeCracker
                 TrimmedHeaderRow[i] = HeaderRow[i];
             }
             var realVector = ETLReadyTrimmer.KNNVectors(GoalColumns, TrimmedHeaderRow);//0 = CIRT, 1 = MCIRT, 2 = MCIP
-
             var TestClassification = Classifier.KNNClassCalc(numClasses, KNNTestData, realVector, 5);//How to decide K?
-
-
+            //0 = MCIRT, 1 = CIRT, 2 = MCIP
             //Based on classification of LoanTape (MCIP,MCIRT,CIRT), change the 'GoalColumns' value, then continue to validation.
+
+            var GoalColumns = ColumnGrab("MCIRT", "C:\\Users\\thech\\Desktop\\DealType.csv");
             var LocList = ETLReadyTrimmer.ColumnLocator(GoalColumns, TrimmedHeaderRow);
            // var check = 0;
 
@@ -66,9 +55,9 @@ namespace TapeCracker
         {
             switch (DealType)
             {
-                case "MCIRT":
-                    return CSVSingleLineReader(5, path, Convert.ToChar(","));
                 case "CIRT":
+                    return CSVSingleLineReader(5, path, Convert.ToChar(","));
+                case "MCIRT":
                     return CSVSingleLineReader(4, path, Convert.ToChar(","));
                 case "CIP":
                     return CSVSingleLineReader(3, path, Convert.ToChar(","));

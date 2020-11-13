@@ -76,17 +76,6 @@ namespace TapeCracker
                 LoanTapeValueColumns[ColumnLocs[i]] = "";// to prevent duplicate matches
                 currMax = -1; //reset max to math. min to make sure it doesn't skip stuff.
             }
-            //double totalDistance = 0;
-            //double minDistance = .999999;
-          //  foreach(KeyValuePair<string,string> kvp in Matches)
-        //    {
-      //          var currDistance = MatchCalc(kvp.Key, kvp.Value);
-    //            totalDistance += currDistance;
-  //              if(currDistance < minDistance) { minDistance = currDistance; }
-//
-           // }
-           // var averageDistance = totalDistance / Matches.Count(); //If below 40 the match sucks
-           // var Minimum = minDistance;
             return ColumnLocs;
         }
         public static double MatchCalc(string source, string target)
