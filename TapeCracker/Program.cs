@@ -14,6 +14,7 @@ namespace TapeCracker
         public static void Main(string[] args)
         {//Eventually replace these csvs with Data tables
             var GoalColumns = ColumnGrab("CIRT", "C:\\Users\\thech\\Desktop\\DealType.csv");
+            var classString = "";
             //Grab and load in the test data, run through the ETLReadyTrimmer to create our test dataset
             var TestSchemas = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\Desktop\\TestSchemas.csv").ToList();
             var SchemaClasses = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\Desktop\\DealTypeClass.csv").ToList();
@@ -25,20 +26,24 @@ namespace TapeCracker
                 numClasses[i] = Convert.ToDouble(SchemaClasses[i][0]);
             }
             var HeaderRow = CSVSingleLineReader(3, args[0], Convert.ToChar(","));
-            string[] TrimmedHeaderRow = new string[62];
-            for(int i = 0; i < 62; i++)
-            {
-                TrimmedHeaderRow[i] = HeaderRow[i];
-            }
+            var TrimmedHeaderRow = TrimHeaderRow(HeaderRow);           
             var realVector = ETLReadyTrimmer.KNNVectors(GoalColumns, TrimmedHeaderRow);//0 = CIRT, 1 = MCIRT, 2 = MCIP
             var TestClassification = Classifier.KNNClassCalc(numClasses, KNNTestData, realVector, 5);//How to decide K?
             //0 = MCIRT, 1 = CIRT, 2 = MCIP
             //Based on classification of LoanTape (MCIP,MCIRT,CIRT), change the 'GoalColumns' value, then continue to validation.
-
-            var GoalColumns = ColumnGrab("MCIRT", "C:\\Users\\thech\\Desktop\\DealType.csv");
-            var LocList = ETLReadyTrimmer.ColumnLocator(GoalColumns, TrimmedHeaderRow);
-           // var check = 0;
-
+            switch (TestClassification) {
+                case 0:
+                    classString = "MCIRT";
+                    break;
+                case 1:
+                    classString = "CIRT";
+                    break;
+                case 2:
+                    classString = "MCIP";
+                    break;
+                        }
+            GoalColumns = ColumnGrab(classString, "C:\\Users\\thech\\Desktop\\DealType.csv");
+            var LocList = ETLReadyTrimmer.ColumnLocator(GoalColumns, TrimHeaderRow(HeaderRow));       
             var Loans = Extractor.GetLoans(args[0]).ToList();
             Loans.RemoveRange(0, 4);//Header rows
             for(int j = 0; j < Loans.Count(); j++)
@@ -82,5 +87,14 @@ namespace TapeCracker
             return Loans;
         }
 
-    }
+        public static string[] TrimHeaderRow(string[] HeaderRow)
+        {
+            string[] TrimmedHeaderRow = new string[62];
+            for (int i = 0; i < 62; i++)
+            {
+                TrimmedHeaderRow[i] = HeaderRow[i];
+            }
+            return TrimmedHeaderRow;
+        }
+}
 }
