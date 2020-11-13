@@ -15,7 +15,6 @@ C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Memory.xml
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.csproj.CopyComplete
-C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.csprojAssemblyReference.cache
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\Accord.dll.config
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\Accord.dll
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\Accord.xml

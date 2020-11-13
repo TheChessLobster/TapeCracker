@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//Use this class to perform final data validation on 'ETL ready' csv file
-//The goal is to use some form of machine learning to automatically correct errors in the data (if possible)
-//The point of this project is to limit human interaction with the LoanTape as much as possible
+
 namespace TapeCracker
 {
     public class ETLReadyTrimmer
@@ -30,10 +28,9 @@ namespace TapeCracker
                         }
                     }
                 }
-                //Post max match is found
                 Matches.Add(KeyColumns[i], LoanTapeValueColumns[ColumnLocs[i]]);
-                LoanTapeValueColumns[ColumnLocs[i]] = "";// to prevent duplicate matches
-                currMax = -1; //reset max to math. min to make sure it doesn't skip stuff.
+                LoanTapeValueColumns[ColumnLocs[i]] = "";
+                currMax = -1; 
             }
             double totalDistance = 0;
             double totalHighMatches = 0;
@@ -46,7 +43,7 @@ namespace TapeCracker
                 if(currDistance > .8){ totalHighMatches += 1; }
             }
             
-            double averageDistance = totalDistance / Matches.Count(); //If below 40 the match sucks
+            double averageDistance = totalDistance / Matches.Count();
             double Minimum = minDistance;
             double highMatchPct = totalHighMatches / LoanTapeValueColumns.Count();
             double[] vals = new double[2] { averageDistance, highMatchPct };
@@ -71,10 +68,9 @@ namespace TapeCracker
                         }
                     }
                 }
-                //Post max match is found
                 Matches.Add(KeyColumns[i], LoanTapeValueColumns[ColumnLocs[i]]);              
-                LoanTapeValueColumns[ColumnLocs[i]] = "";// to prevent duplicate matches
-                currMax = -1; //reset max to math. min to make sure it doesn't skip stuff.
+                LoanTapeValueColumns[ColumnLocs[i]] = "";
+                currMax = -1; 
             }
             return ColumnLocs;
         }
@@ -86,7 +82,7 @@ namespace TapeCracker
         }
         public static int LevDistance(string string1, string string2)
         {
-            if (string1 == string2) return string1.Length;//Exact match
+            if (string1 == string2) return string1.Length;
             int sourceChars = string1.Length;
             int targetChars = string2.Length;
             int[,] distance = new int[sourceChars + 1, targetChars + 1];

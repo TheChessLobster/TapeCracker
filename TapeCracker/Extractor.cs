@@ -11,10 +11,10 @@ namespace TapeCracker
     public class Extractor
     {
         public static IEnumerable<string[]> GetLoans(string loansFile)
-            => File.ReadAllLines(loansFile).Select(f => f.Split('|'));//Due to Loan Tapes tending to be pipe delimited. 
+            => File.ReadAllLines(loansFile).Select(f => f.Split('|')); 
 
         public static IEnumerable<string[]> GetTestSchemasOrClasses(string loansFile)
-            => File.ReadAllLines(loansFile).Select(f => f.Split(','));//Due to Loan Tapes tending to be pipe delimited. 
+            => File.ReadAllLines(loansFile).Select(f => f.Split(','));
 
         public static string[] FindAndLoadHeader(IEnumerable<string[]> LoanTape)
         {

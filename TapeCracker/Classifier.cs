@@ -10,18 +10,14 @@ namespace TapeCracker
     {
         public static int KNNClassCalc(double[] testoutputs, double[][] testInputs, double[] realInput, int neighborcount)
         {
-            //Calculate the euclidean distances from realInput to all testInput vals
             var DistList = distances(realInput,testInputs);
-            //Find the 5 closest values, and their classes from the 'testoutputs' matching index
             var KClosest = FindKClosestVotes(DistList, neighborcount,testoutputs);
-            //find the mode classification of those 5          
-            //declare our realInput's real classification to be that.
-            var Classification = KClosest.GroupBy(v => v).OrderByDescending(g => g.Count()).First().Key;
+            var Classification = KClosest.GroupBy(v => v).OrderByDescending(g => g.Count()).First().Key;//LINQ way to grab 'mode' of a List
             return Classification;
         }
 
         public static double[] distances(double[] realinput, double[][] testinputs)
-        {//should be in place, index wise, no need to hold the index.
+        {
             double[] distances = new double[testinputs.Count()];
             double realx1 = realinput[0];
             double realy1 = realinput[1];
@@ -33,7 +29,7 @@ namespace TapeCracker
         }
 
         public static int[] FindKClosestVotes(double[] DistList, int neighborCount,double[] testoutputs)
-        {//should be in place, index wise, no need to hold the index.
+        {
             var voteCount = 0;
             int[] VoteList = new int[neighborCount];
             for(int i = 0; i < DistList.Count(); i++)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 //The point of this project is to limit human interaction with the LoanTape as much as possible
 namespace TapeCracker
 {
-    public class Validator
+    public static class Validator
     {
         
     }
