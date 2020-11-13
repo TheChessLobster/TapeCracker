@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using NumSharp;
+using NumSharp.Utilities;
+using NumSharp.Generic;
 //Evan Seghers
 //UW-Whitewater Student
 //Milliman Employee
@@ -15,34 +18,28 @@ namespace TapeCracker
     {
         public static void Main(string[] args)
         {
-            //Inputs needed
+            //Inputs neededv
             // LoanTapePath||TapeType||DealType csv(list of needed inputs)
             // C:\Users\thech\Desktop\MCIRT20193 MCIRT C:\Users\thech\Desktop\DealType
             var TapeType = args[1];
             var GoalColumns = ColumnGrab(TapeType, args[2]);
             var HeaderRow = CSVSingleLineReader(3, args[0], Convert.ToChar(","));
-            var LoanCount = CSVLineCounter(3, args[0]);
             List<string[]> loans = new List<string[]>();
             string[] trimmedHeaderRow = new string[HeaderRow.Length];
             for (int i = 0; i < trimmedHeaderRow.Length; i++){
                     trimmedHeaderRow[i] = HeaderRow[i];
             }
             var LocList = ETLReadyTrimmer.ColumnLocator(GoalColumns, trimmedHeaderRow);
-            //We now know which columns of the csv contain the data that we need, so grab this data, and print it off to a new csv
-            for(int i = 4; i < LoanCount; i++)
+            var Loans = Extractor.GetLoans(args[0]).ToList();
+            Loans.RemoveRange(0, 4);//Header rows
+            for(int j = 0; j < Loans.Count(); j++)
             {
-                var nonParsed = CSVSingleLineReader(i, args[0], Convert.ToChar(","));
-                var Parsed = new string[LocList.Count()];
-                for(int j = 0;j < nonParsed.Count(); j++)
-                {
-                    for(int k = 0; k < LocList.Count(); k++)
-                    {
-                        if(j == LocList[k]) { Parsed[k] = nonParsed[j]; }
-                    }
-                }
-                loans.Add(Parsed);
+                Loans[j] = Loans[j][0].Split(Convert.ToChar(","));
+           
             }
-            var added = loans;
+            var check = 0;
+            //loop through and delete all
+      
         }
 
         public static string[] ColumnGrab(string DealType, string path)
@@ -67,6 +64,11 @@ namespace TapeCracker
         public static int CSVLineCounter(int startLine, string path)
         {
             return File.ReadAllLines(path).Count() - startLine;
+        }
+        public static string[] LoanValuesSplitter(string[] Loans)
+        {
+            Loans[0].Split(Convert.ToChar(","));
+            return Loans;
         }
     }
 }

@@ -4,3 +4,15 @@ C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\TapeCracker.pdb
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.csproj.CoreCompileInputs.cache
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.exe
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.pdb
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\NumSharp.Core.dll
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Buffers.dll
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Memory.dll
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\NumSharp.Core.pdb
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Buffers.xml
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Memory.xml
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.csproj.CopyComplete
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.csprojAssemblyReference.cache
