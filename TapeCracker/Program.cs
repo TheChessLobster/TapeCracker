@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.IO;
+using Accord.Statistics;
+using Accord.Statistics.Analysis;
 
 //Evan Seghers
 //UW-Whitewater Student
@@ -14,34 +16,57 @@ namespace TapeCracker
         public static void Main(string[] args)
         {
             var classString = "";
-            var GoalColumns = ColumnGrab("CIRT", "C:\\Users\\thech\\Desktop\\DealType.csv");
-            var TestSchemas = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\Desktop\\TestSchemas.csv").ToList();
-            var SchemaClasses = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\Desktop\\DealTypeClass.csv").ToList();
-            double[] numClasses = new double[SchemaClasses.Count()];
+            var GoalColumns = ColumnGrab("CIRT", "C:\\Users\\thech\\OneDrive\\Desktop\\DealType.csv"); //Grabs a 'CIRT' loantype
+            var TestSchemas = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\TestSchemas.csv").ToList();
+            var TestingSchemas = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\TestingSchemas.csv").ToList();
+            var TestingSchemasClean = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\TestingSchemasClean.csv").ToList();
+            var SchemaClasses = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\DealTypeClass.csv").ToList();
+            int[] numClasses = new int[SchemaClasses.Count()];
             double[][] KNNTestData = new double[TestSchemas.Count()][];
-            for (int i = 0;i<TestSchemas.Count();i++)
+            double[][] KNNTestingData = new double[TestingSchemas.Count()][];
+            double[][] KNNTestingDataClean = new double[TestingSchemasClean.Count()][];
+            for (int i = 0;i < TestSchemas.Count();i++)
             {
                 KNNTestData[i] = ETLReadyTrimmer.KNNVectors(GoalColumns,TestSchemas[i]);
-                numClasses[i] = Convert.ToDouble(SchemaClasses[i][0]);
+                numClasses[i] = Convert.ToInt32(SchemaClasses[i][0]);
+                KNNTestingData[i] = ETLReadyTrimmer.KNNVectors(GoalColumns, TestingSchemas[i]);
+                KNNTestingDataClean[i] = ETLReadyTrimmer.KNNVectors(GoalColumns, TestingSchemasClean[i]);
             }
+            int[] RealClassification = new int[KNNTestingData.Count()];
+            int[] RealCleanClassification = new int[KNNTestingDataClean.Count()];
+            for(int i = 0; i < KNNTestingData.Count(); i++)
+            {
+                RealClassification[i] = Classifier.KNNClassCalc(numClasses, KNNTestData, KNNTestingData[i], 5);
+                RealCleanClassification[i] = Classifier.KNNClassCalc(numClasses, KNNTestData, KNNTestingDataClean[i], 5);
+            }
+
+            //Use ML Data or manual method to compute the Confusion Matrix, Precision, and Recall
+
+            var confusionMatrix = new GeneralConfusionMatrix(classes: 3, expected: numClasses, predicted: RealClassification);
+            Console.WriteLine("Precision: " + confusionMatrix.Precision[0] + " " + confusionMatrix.Precision[1] + " " + confusionMatrix.Precision[2]);
+            Console.WriteLine("Recall: " + confusionMatrix.Recall[0] + " " + confusionMatrix.Recall[1] + " " + confusionMatrix.Recall[2]);
+            Console.WriteLine("Total Accuracy: " + confusionMatrix.Accuracy);
+            int[,] check = confusionMatrix.Matrix;
+            PrintMatrix(check);
+
+            var cleanConfusionMatrix = new GeneralConfusionMatrix(classes: 3, expected: numClasses, predicted: RealCleanClassification);
+            Console.WriteLine(" Precision: " + cleanConfusionMatrix.Precision[0] + " " + cleanConfusionMatrix.Precision[1] + " " + cleanConfusionMatrix.Precision[2]);
+            Console.WriteLine( "Recall: " + cleanConfusionMatrix.Recall[0] + " " + cleanConfusionMatrix.Recall[1] + " " + cleanConfusionMatrix.Recall[2]);
+            Console.WriteLine( "Total Accuracy: " + cleanConfusionMatrix.Accuracy);
+            int[,] check2 = cleanConfusionMatrix.Matrix;
+            PrintMatrix(check2);
+
+
+
+
             var HeaderRow = CSVSingleLineReader(3, args[0], Convert.ToChar(","));
             var TrimmedHeaderRow = TrimHeaderRow(HeaderRow);           
             var realVector = ETLReadyTrimmer.KNNVectors(GoalColumns, TrimmedHeaderRow);
 
-            //INCLUDED TEST CASES FOR KNN
-            //DUMMY VECTOR OF 100 PERCENT "CIRT" Match, WITH 90 PERCENT HIGH MATCH
-            double[] CIRTDouble = { 1, .90 };
-            var CIRTtest = Classifier.KNNClassCalc(numClasses, KNNTestData, CIRTDouble, 5); //Should classify as '1'
-
-            //DUMMY VECTOR OF 20 PERCENT "CIRT" MATCH, WITH 20 PERCENT HIGH MATCH
-            double[] MCIPDouble = { .2, .1 };
-            var MCIPtest = Classifier.KNNClassCalc(numClasses, KNNTestData, MCIPDouble, 5); //Should classify as '2'
-
-
-
             var TestClassification = Classifier.KNNClassCalc(numClasses, KNNTestData, realVector, 5); //Real input(MCIRT) should classify as 0
             //0 = MCIRT, 1 = CIRT, 2 = MCIP
             //Based on classification of LoanTape (MCIP,MCIRT,CIRT), change the 'GoalColumns' value, then continue to validation.
+            //Based on the 'real vector' classification, grab the correct needed columns
             switch (TestClassification) {
                 case 0:
                     classString = "MCIRT";
@@ -53,7 +78,7 @@ namespace TapeCracker
                     classString = "MCIP";
                     break;
                         }
-            var GoalRow = ColumnGrab(classString, "C:\\Users\\thech\\Desktop\\DealType.csv");
+            var GoalRow = ColumnGrab(classString, "C:\\Users\\thech\\OneDrive\\Desktop\\DealType.csv");
             var LocList = ETLReadyTrimmer.ColumnLocator(GoalRow, TrimHeaderRow(HeaderRow));       
             var Loans = Extractor.GetLoans(args[0]).ToList();
             Loans.RemoveRange(0, 4);
@@ -93,6 +118,42 @@ namespace TapeCracker
                 TrimmedHeaderRow[i] = HeaderRow[i];
             }
             return TrimmedHeaderRow;
+        }
+
+        public static void WriteToClassificationFile(string[] classifications)
+        {           
+            string folder = @"C:\Users\thech\";
+            string fileName = "classifications.txt";
+            string fullPath = folder + fileName;
+            string[] toWrite = classifications;
+            File.WriteAllLines(fullPath, toWrite);
+            string readText = File.ReadAllText(fullPath);
+            Console.WriteLine(readText);
+        }
+        public static void PrintMatrix(int[,] matrix)
+        {
+
+            int columns = matrix.GetLength(0);
+            int rows = matrix.GetLength(1);
+            for (int i = 0; i < columns; i++)
+            {
+                if (i == 0)
+                {
+                    Console.Write("    0 1 2 3\n");
+                    Console.WriteLine("  +---------+");
+                }
+                for (int j = 0; j < rows; j++)
+                {
+                    if (j == 0) Console.Write(i.ToString() + " | ");
+                    Console.Write(matrix[i, j] + " ");
+                    if (j == rows - 1) Console.Write("|");
+                }
+                Console.WriteLine();
+                if (i == columns - 1) Console.Write("  +---------+");
+            }
+            Console.Write("\n");
+
+
         }
 }
 }

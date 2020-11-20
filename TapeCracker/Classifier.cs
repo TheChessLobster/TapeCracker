@@ -8,7 +8,7 @@ namespace TapeCracker
 {//KNN classifier
     public static class Classifier
     {
-        public static int KNNClassCalc(double[] testoutputs, double[][] testInputs, double[] realInput, int neighborcount)
+        public static int KNNClassCalc(int[] testoutputs, double[][] testInputs, double[] realInput, int neighborcount)
         {
             var DistList = distances(realInput,testInputs);
             var KClosest = FindKClosestVotes(DistList, neighborcount,testoutputs);
@@ -28,7 +28,7 @@ namespace TapeCracker
             return distances;
         }
 
-        public static int[] FindKClosestVotes(double[] DistList, int neighborCount,double[] testoutputs)
+        public static int[] FindKClosestVotes(double[] DistList, int neighborCount,int[] testoutputs)
         {
             var voteCount = 0;
             int[] VoteList = new int[neighborCount];
