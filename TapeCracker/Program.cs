@@ -79,11 +79,13 @@ namespace TapeCracker
             var LocList = ETLReadyTrimmer.ColumnLocator(GoalRow, TrimHeaderRow(HeaderRow));       
             var Loans = Extractor.GetLoans(args[0]).ToList();
             Loans.RemoveRange(0, 4);
+            var doublecheck = 0;
             for(int j = 0; j < Loans.Count(); j++)
             {
                 Loans[j] = Loans[j][0].Split(Convert.ToChar(","));        
             }
-      
+            var triplecheck = 0;
+            //Now we just only grab the columns that are in section [1] of the 'LocList' array, and bam we have our values needed (unvalidated)
        }
 
         public static string[] ColumnGrab(string DealType, string path)
@@ -94,7 +96,7 @@ namespace TapeCracker
                     return CSVSingleLineReader(5, path, Convert.ToChar(","));
                 case "MCIRT":
                     return CSVSingleLineReader(4, path, Convert.ToChar(","));
-                case "CIP":
+                case "MCIP":
                     return CSVSingleLineReader(3, path, Convert.ToChar(","));
             }
             return new string[] { };
