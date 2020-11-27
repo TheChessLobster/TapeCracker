@@ -20,7 +20,7 @@ namespace TapeCracker
             var TestSchemas = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\TestSchemas.csv").ToList();
             var TestingSchemas = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\TestingSchemas.csv").ToList();
             var TestingSchemasClean = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\TestingSchemasClean.csv").ToList();
-            var SchemaClasses = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\DealTypeClass.csv").ToList();
+            var SchemaClasses = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\DealTypeClass.csv").ToList();//Real classification
             int[] numClasses = new int[SchemaClasses.Count()];
             double[][] KNNTestData = new double[TestSchemas.Count()][];
             double[][] KNNTestingData = new double[TestingSchemas.Count()][];
@@ -55,9 +55,6 @@ namespace TapeCracker
             Console.WriteLine( "Total Accuracy: " + cleanConfusionMatrix.Accuracy);
             int[,] check2 = cleanConfusionMatrix.Matrix;
             PrintMatrix(check2);
-
-
-
 
             var HeaderRow = CSVSingleLineReader(3, args[0], Convert.ToChar(","));
             var TrimmedHeaderRow = TrimHeaderRow(HeaderRow);           

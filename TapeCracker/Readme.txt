@@ -4,7 +4,7 @@ Milliman/UWW-Whitewater Project
 CURRENT TO DO
 11/13/2020
 
-1. Implement and create validator class (final version with NPSharp arrays to format)
-2. Have it write out the final csv, and a separate csv breaking down outliers
-3. Rigorously test the current KNN implementation(much larger test dataset)
-4. Research adding 'data-level' machine learning methods to correct outlier or incorrect data.
+ 1. Implement validation class
+ 2. Double-check classification based on initial value averages vs usual value averages (KNN on data itself)
+ 3. If wrong, re-do column matching, if correct, continue. 
+ 4. Grab all columns, and output to 'final ready csv'
