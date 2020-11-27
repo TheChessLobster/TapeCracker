@@ -3,6 +3,8 @@ using System.Linq;
 using System.IO;
 using Accord.Statistics;
 using Accord.Statistics.Analysis;
+using System.Collections.Generic;
+using Accord.Math;
 
 //Evan Seghers
 //UW-Whitewater Student
@@ -82,11 +84,50 @@ namespace TapeCracker
             var doublecheck = 0;
             for(int j = 0; j < Loans.Count(); j++)
             {
-                Loans[j] = Loans[j][0].Split(Convert.ToChar(","));        
+                Loans[j] = Loans[j][0].Split(Convert.ToChar(","));
+                Loans[j] = Loans[j].Take(70).ToArray();
             }
             var triplecheck = 0;
+            List<string[]> SelectedLoans = new List<string[]>();
             //Now we just only grab the columns that are in section [1] of the 'LocList' array, and bam we have our values needed (unvalidated)
-       }
+            for(int j = 0;j < Loans.Count; j++)
+            {
+                int count = 0;
+                for (int k = 0;k < LocList.Count(); k++)
+                {
+                    var checkexist = Loans[j][k];
+                    var checkalsoexist = LocList[k];
+                    var ValtoAdd = Loans[j][LocList[k]];
+                    Loans[j][k] = ValtoAdd;
+                }
+                Loans[j] = Loans[j].Take(49).ToArray();
+            }
+            var finalcheck = 0;
+            //Grab 3 'test vectors'
+            double[][] DataKNNTestVectors = new double[3][];
+            var MCIRTsarray = CSVSingleLineReader(3, "C:\\Users\\thech\\OneDrive\\Desktop\\TypeDataValidation.csv", Convert.ToChar(","));
+            double[] MCIRTdarray = Array.ConvertAll(MCIRTsarray, Double.Parse);
+            DataKNNTestVectors[0] = MCIRTdarray;
+
+            var CIRTsarray = CSVSingleLineReader(5, "C:\\Users\\thech\\OneDrive\\Desktop\\TypeDataValidation.csv", Convert.ToChar(","));
+            double[] CIRTdarray = Array.ConvertAll(CIRTsarray, Double.Parse);
+            DataKNNTestVectors[1] = CIRTdarray;
+
+            var MCIPsarray = CSVSingleLineReader(1, "C:\\Users\\thech\\OneDrive\\Desktop\\TypeDataValidation.csv", Convert.ToChar(","));
+            double[] MCIPdarray = Array.ConvertAll(MCIPsarray, Double.Parse);
+            DataKNNTestVectors[2] = MCIPdarray;
+            var checko = 0;
+            //Grab values on our 1 'real vector, based on our classified dealtype
+
+            //re-classify based on relation to those other vectors
+
+            //if string classification != data classification, remove data level mistake and re-classify. 
+
+            //now validate the data based on our finally correct data type, and remove any outliers, possibly replace with average value.
+
+            //Now that the data is completely classified correctly, and cleaned, output final csv, and add our classification values/schema to our TestSchemas
+
+        }
 
         public static string[] ColumnGrab(string DealType, string path)
         {
@@ -108,6 +149,7 @@ namespace TapeCracker
             string[] dealLine = allLines[line].Split(delimiter); 
             return dealLine;
         }
+
 
         public static string[] TrimHeaderRow(string[] HeaderRow)
         {
