@@ -157,11 +157,16 @@ namespace TapeCracker
                                                                                                                            
             var checkapopolis = realDataVector;
             //if string classification != data classification, remove data level mistake and re-classify. 
-
+            if(DataClassification != TestClassification)
+            {
+                Console.Write("Data does not match the schema classification expectations");
+                //Re-do the KNN classification algorithm based on the schema, but with only two choices, (subtract the one that it can't be due to data)
+            }
             //now validate the data based on our finally correct data type, and remove any outliers, possibly replace with average value.
-
+            Loans = Validator.ValidateLoans(Loans);
             //Now that the data is completely classified correctly, and cleaned, output final csv, and add our classification values/schema to our TestSchemas
-
+            WriteToClassificationFile(Loans);
+            //All done :)
         }
 
         public static string[] ColumnGrab(string DealType, string path)
@@ -196,13 +201,16 @@ namespace TapeCracker
             return TrimmedHeaderRow;
         }
 
-        public static void WriteToClassificationFile(string[] classifications)
+        public static void WriteToClassificationFile(List<string[]> Loans)
         {           
             string folder = @"C:\Users\thech\";
-            string fileName = "classifications.txt";
+            string fileName = "output.txt";
             string fullPath = folder + fileName;
-            string[] toWrite = classifications;
-            File.WriteAllLines(fullPath, toWrite);
+            for(int i = 0; i < Loans.Count(); i++)
+            {
+                string[] toWrite = Loans[i];
+                File.WriteAllText(fullPath, toWrite);
+            }
             string readText = File.ReadAllText(fullPath);
             Console.WriteLine(readText);
         }
@@ -228,8 +236,7 @@ namespace TapeCracker
                 if (i == columns - 1) Console.Write("  +---------+");
             }
             Console.Write("\n");
-
-
         }
+        
 }
 }
