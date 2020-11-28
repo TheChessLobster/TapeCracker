@@ -206,11 +206,19 @@ namespace TapeCracker
             string folder = @"C:\Users\thech\";
             string fileName = "output.txt";
             string fullPath = folder + fileName;
-            for(int i = 0; i < Loans.Count(); i++)
+            string[] mushedLoans = new string[Loans.Count()];
+            string temp = "";
+            for(int j = 0; j < Loans.Count(); j++)
             {
-                string[] toWrite = Loans[i];
-                File.WriteAllText(fullPath, toWrite);
+                for(int k = 0; k<Loans[j].Length; k++)
+                {
+                    temp += Loans[j][k] + ",";
+                }
+                mushedLoans[j] = temp;
+                temp = "";
             }
+            string[] toWrite = mushedLoans;
+            File.WriteAllLines(fullPath, toWrite);
             string readText = File.ReadAllText(fullPath);
             Console.WriteLine(readText);
         }
