@@ -95,8 +95,6 @@ namespace TapeCracker
                 int count = 0;
                 for (int k = 0;k < LocList.Count(); k++)
                 {
-                    var checkexist = Loans[j][k];
-                    var checkalsoexist = LocList[k];
                     var ValtoAdd = Loans[j][LocList[k]];
                     Loans[j][k] = ValtoAdd;
                 }
@@ -116,11 +114,48 @@ namespace TapeCracker
             var MCIPsarray = CSVSingleLineReader(1, "C:\\Users\\thech\\OneDrive\\Desktop\\TypeDataValidation.csv", Convert.ToChar(","));
             double[] MCIPdarray = Array.ConvertAll(MCIPsarray, Double.Parse);
             DataKNNTestVectors[2] = MCIPdarray;
-            var checko = 0;
+            //in dataKNNTestVectors 0 = MCIRT, 1 = CIRT, 2 = MCIP
+            double amountCount = 0;
+            double LTVCount = 0;
+            double[] realDataVector = new double[2];
+            switch (TestClassification)
+            {
+                case 0://MCIRT   (2,34)
+                    for(int i = 0;i< Loans.Count(); i++)
+                    {
+                        amountCount += Convert.ToDouble(Loans[i][2]);
+                        LTVCount += Convert.ToDouble(Loans[i][31]);
+                    }
+                    amountCount /= Loans.Count();
+                    LTVCount /= Loans.Count();
+                    realDataVector = new double[] { amountCount, LTVCount };
+                    break;
+                case 1://CIRT     (2,31)
+                    for (int i = 0; i < Loans.Count(); i++)
+                    {
+                        amountCount += Convert.ToDouble(Loans[i][2]);
+                        LTVCount += Convert.ToDouble(Loans[i][31]);
+                    }
+                    amountCount /= Loans.Count();
+                    LTVCount /= Loans.Count();
+                    realDataVector = new double[] { amountCount, LTVCount };
+                    break;
+                case 2://MCIP     (2,29)
+                    for (int i = 0; i < Loans.Count(); i++)
+                    {
+                        amountCount += Convert.ToDouble(Loans[i][2]);
+                        LTVCount += Convert.ToDouble(Loans[i][29]);
+                    }
+                    amountCount /= Loans.Count();
+                    LTVCount /= Loans.Count();
+                    realDataVector = new double[] { amountCount, LTVCount };
+                    break;
+            }
             //Grab values on our 1 'real vector, based on our classified dealtype
-
-            //re-classify based on relation to those other vectors
-
+            //create a switch statement based on dealtype that grabs our 3 chosen things
+            var DataClassification = Classifier.KNNClassCalc(new int[] { 0, 1, 2 }, DataKNNTestVectors, realDataVector, 5); 
+                                                                                                                           
+            var checkapopolis = realDataVector;
             //if string classification != data classification, remove data level mistake and re-classify. 
 
             //now validate the data based on our finally correct data type, and remove any outliers, possibly replace with average value.
