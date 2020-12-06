@@ -21,12 +21,12 @@ namespace TapeCracker
                     try
                     {
                         var myDouble = Convert.ToDouble(Loans[i][j]);
-                        Loans[i][j] = ValidateDoubles(myDouble).ToString();
+                        Loans[i][j] = ValidateDoubles(myDouble,i).ToString();
 
                     }
                     catch(FormatException f)
                     {
-                        Loans[i][j] = ValidateString(Loans[i][j]);                      
+                        Loans[i][j] = ValidateString(Loans[i][j],i);                      
                         continue;
                     }
                 }
@@ -36,13 +36,13 @@ namespace TapeCracker
             return Loans;
         }
 
-        public static double ValidateDoubles(double loanDouble)
+        public static double ValidateDoubles(double loanDouble, double index)
         {
             //Validate that based on previous values in this index, that this value is good for this index, with a dictionary
             return loanDouble;
         }
 
-        public static string ValidateString(string loanString)
+        public static string ValidateString(string loanString, double index)
         {
             loanString = loanString.ToUpper();
             return loanString;
