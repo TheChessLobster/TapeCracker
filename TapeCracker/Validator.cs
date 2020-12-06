@@ -51,8 +51,7 @@ namespace TapeCracker
         {
             loanString = loanString.ToUpper();
             if(loanString == "") {
-                loanString = "UNPROVIDEDDATA";
-                Console.WriteLine("There is missing data for loan " + loanindex + " at column " + columnindex);
+                loanString = "u";
             }
             return loanString;
         }
