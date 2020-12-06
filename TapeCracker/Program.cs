@@ -153,19 +153,20 @@ namespace TapeCracker
             }
             //Grab values on our 1 'real vector, based on our classified dealtype
             //create a switch statement based on dealtype that grabs our 3 chosen things
-            var DataClassification = Classifier.KNNClassCalc(new int[] { 0, 1, 2 }, DataKNNTestVectors, realDataVector, 5); 
-                                                                                                                           
-            var checkapopolis = realDataVector;
+            var DataClassification = Classifier.KNNClassCalc(new int[] { 0, 1, 2 }, DataKNNTestVectors, realDataVector, 5);
+
             //if string classification != data classification, remove data level mistake and re-classify. 
-            if(DataClassification != TestClassification)
+            if (DataClassification != TestClassification)
             {
-                Console.Write("Data does not match the schema classification expectations");
-                //Re-do the KNN classification algorithm based on the schema, but with only two choices, (subtract the one that it can't be due to data)
+                Console.Write("Data does not match the schema classification expectations, please check csv and re-run");
             }
             //now validate the data based on our finally correct data type, and remove any outliers, possibly replace with average value.
-            Loans = Validator.ValidateLoans(Loans);
-            //Now that the data is completely classified correctly, and cleaned, output final csv, and add our classification values/schema to our TestSchemas
-            WriteToClassificationFile(Loans);
+            else if( DataClassification == TestClassification)
+            {
+                Loans = Validator.ValidateLoans(Loans);
+                //Now that the data is completely classified correctly, and cleaned, output final csv, and add our classification values/schema to our TestSchemas
+                WriteToClassificationFile(Loans);
+            }
             //All done :)
         }
 

@@ -21,12 +21,12 @@ namespace TapeCracker
                     try
                     {
                         var myDouble = Convert.ToDouble(Loans[i][j]);
-                        Loans[i][j] = ValidateDoubles(myDouble,i).ToString();
+                        Loans[i][j] = ValidateDoubles(myDouble,i,j).ToString();
 
                     }
                     catch(FormatException f)
                     {
-                        Loans[i][j] = ValidateString(Loans[i][j],i);                      
+                        Loans[i][j] = ValidateString(Loans[i][j],i,j);                      
                         continue;
                     }
                 }
@@ -36,21 +36,25 @@ namespace TapeCracker
             return Loans;
         }
 
-        public static double ValidateDoubles(double loanDouble, double index)
+        public static double ValidateDoubles(double loanDouble,double loanindex,double columnindex)
         {
             //Validate that based on previous values in this index, that this value is good for this index, with a dictionary
+            if(loanDouble < 0|| loanDouble > 100000000000000|| loanDouble == null)
+            {
+                loanDouble = 0;
+                Console.WriteLine("There is an errant value for loan " + loanindex + " at column " + columnindex);
+            }
             return loanDouble;
         }
 
-        public static string ValidateString(string loanString, double index)
+        public static string ValidateString(string loanString, double loanindex, double columnindex)
         {
             loanString = loanString.ToUpper();
+            if(loanString == "") {
+                loanString = "UNPROVIDEDDATA";
+                Console.WriteLine("There is missing data for loan " + loanindex + " at column " + columnindex);
+            }
             return loanString;
-        }
-
-        public static double StandardDeviation(double value, double k)
-        {
-            return value;
         }
     }
 }
