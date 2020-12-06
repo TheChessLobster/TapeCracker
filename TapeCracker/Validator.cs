@@ -30,7 +30,7 @@ namespace TapeCracker
                         continue;
                     }
                 }
-                if(i%1000 == 0 & i< 10000)
+                if(i/1000 == 1.0000 & i< 10000)
                 {
                     Console.WriteLine(i + " loans completed");
                 }
