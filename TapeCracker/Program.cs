@@ -18,6 +18,8 @@ namespace TapeCracker
         public static void Main(string[] args)
         {
             var classString = "";
+            var catTest = ETLReadyTrimmer.MatchCalc("cat", "dog"); //0
+            var specialTest = ETLReadyTrimmer.MatchCalc("special", "especially");  //.7776
             var GoalColumns = ColumnGrab("CIRT", "C:\\Users\\thech\\OneDrive\\Desktop\\DealType.csv"); //Grabs a 'CIRT' loantype
             var TestSchemas = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\TestSchemas.csv").ToList();
             var TestingSchemas = Extractor.GetTestSchemasOrClasses("C:\\Users\\thech\\OneDrive\\Desktop\\TestingSchemas.csv").ToList();
@@ -153,7 +155,7 @@ namespace TapeCracker
             }
             //Grab values on our 1 'real vector, based on our classified dealtype
             //create a switch statement based on dealtype that grabs our 3 chosen things
-            var DataClassification = Classifier.KNNClassCalc(new int[] { 0, 1, 2 }, DataKNNTestVectors, realDataVector, 5);
+            var DataClassification = Classifier.KNNClassCalc(new int[] { 0, 1, 2 }, DataKNNTestVectors, realDataVector, 1);
 
             //if string classification != data classification, remove data level mistake and re-classify. 
             if (DataClassification != TestClassification)

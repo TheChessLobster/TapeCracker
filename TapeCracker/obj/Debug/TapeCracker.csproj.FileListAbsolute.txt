@@ -37,3 +37,4 @@ C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\Newtonsoft.Json.xm
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Collections.Immutable.xml
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Threading.Channels.xml
 C:\Users\thech\source\repos\TapeCracker\TapeCracker\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\thech\source\repos\TapeCracker\TapeCracker\obj\Debug\TapeCracker.csprojAssemblyReference.cache

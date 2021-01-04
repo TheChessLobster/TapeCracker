@@ -1,8 +1,11 @@
 ﻿Evan Seghers
-Milliman/UWW-Whitewater Project
+Milliman
 
 CURRENT TO DO
 11/13/2020
 
- 1. Slightly refractor, possibly implement recursion if mismatch in classification between data KNN and schema KNN.
- 2. Create powerpoint presentation to describe the process of development, as well as future improvements to the project.
+1. Remove wasteful code for testing/academic reasons
+2. Test on MCIRT, confirm still working correctly
+3. Expand Logic to MCIP and CIRT style tapes
+4. Develop this to work in bulk for all loan types
+5. Possibly add a front end, but this may be ambitious
