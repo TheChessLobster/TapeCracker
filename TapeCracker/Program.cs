@@ -169,7 +169,6 @@ namespace TapeCracker
                 //Now that the data is completely classified correctly, and cleaned, output final csv, and add our classification values/schema to our TestSchemas
                 WriteToClassificationFile(Loans);
             }
-            //All done :)
         }
 
         public static string[] ColumnGrab(string DealType, string path)
